@@ -8,7 +8,7 @@ import { User } from '@/src/users/user.entity';
 import { UsersService } from '@/src/users/users.service';
 
 export interface JwtPayload {
-  id: string; // user ID
+  id: number; // user ID
   email: string;
 }
 

@@ -18,7 +18,7 @@ export class UsersService {
   }
 
   /** Find by ID — used by JWT strategy to hydrate the request user */
-  async findById(id: string): Promise<User | null> {
+  async findById(id: number): Promise<User | null> {
     return this.usersRepo.findOne({ where: { id } });
   }
 
