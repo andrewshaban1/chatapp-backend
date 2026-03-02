@@ -11,7 +11,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '@/src/users/user.entity';
 
 import { Chat, ChatType } from './chat.entity';
-import { CreateChatDto } from './dto/create-chat.dto';
+import { CreateChatRequestDto } from './dto/create-chat.dto';
 
 @Injectable()
 export class ChatsService {
@@ -23,7 +23,7 @@ export class ChatsService {
   ) {}
 
   // Create chat
-  async create(dto: CreateChatDto, creator: User): Promise<Chat> {
+  async create(dto: CreateChatRequestDto, creator: User): Promise<Chat> {
     // For direct chats enforce exactly 1 other participant
     if (dto.type === ChatType.DIRECT && dto.participantIds.length !== 1) {
       throw new BadRequestException(

@@ -9,12 +9,12 @@ import {
 
 import { ChatType } from '@/src/chats/chat.entity';
 
-export class CreateChatDto {
+export class CreateChatRequestDto {
   @IsEnum(ChatType)
   type: ChatType;
 
   // Required for group chats, ignored for direct
-  @ValidateIf((o: CreateChatDto) => o.type === ChatType.GROUP)
+  @ValidateIf((o: CreateChatRequestDto) => o.type === ChatType.GROUP)
   @IsString()
   @MaxLength(100)
   name?: string;

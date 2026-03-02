@@ -6,7 +6,7 @@ import { Chat } from '@/src/chats/chat.entity';
 import { ChatsService } from '@/src/chats/chats.service';
 import { User } from '@/src/users/user.entity';
 
-import { CreateMessageDto } from './dto/create-message.dto';
+import { CreateMessageRequestDto } from './dto/create-message.dto';
 import { Message } from './message.entity';
 import { MessagesService } from './messages.service';
 
@@ -86,7 +86,7 @@ describe('MessagesService', () => {
   });
 
   describe('create', () => {
-    const dto: CreateMessageDto = { content: 'Hello world' };
+    const dto: CreateMessageRequestDto = { content: 'Hello world' };
     const chatId = 1;
 
     it('should create and return message when user is participant', async () => {

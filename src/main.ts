@@ -1,5 +1,6 @@
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
 import { NotFoundFilter } from './common/filters/not-found.filter';
@@ -29,6 +30,16 @@ async function bootstrap() {
     }),
   );
 
+  const config = new DocumentBuilder()
+    .setTitle('Chat App API')
+    .setDescription('API documentation for the chat application')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api/docs', app, document);
+
   app.setGlobalPrefix('api'); // all routes become /api/auth/..., /api/users/...
 
   // NotFoundFilter logs 404 errors because LoggingInterceptor doesn't catch them
@@ -40,4 +51,5 @@ async function bootstrap() {
   );
 }
 
+// eslint-disable-next-line
 bootstrap();

@@ -1,12 +1,16 @@
+import { Type } from 'class-transformer';
 import {
   IsEmail,
+  IsObject,
   IsString,
   Matches,
   MaxLength,
   MinLength,
 } from 'class-validator';
 
-export class RegisterDto {
+import { User } from '@/src/users/user.entity';
+
+export class RegisterRequestDto {
   @IsEmail({}, { message: 'Please provide a valid email address.' })
   email: string;
 
@@ -30,4 +34,13 @@ export class RegisterDto {
       'Password must contain at least one uppercase letter and one number.',
   })
   password: string;
+}
+
+export class RegisterResponseDto {
+  @IsString()
+  accessToken: string;
+
+  @IsObject()
+  @Type(() => User)
+  user: User;
 }

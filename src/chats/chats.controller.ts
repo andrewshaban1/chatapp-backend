@@ -14,8 +14,9 @@ import {
 import { JwtAuthGuard } from '@/src/auth/guards/jwt-auth.guard';
 import type { AuthorizedRequest } from '@/src/types/auth.type';
 
+import { Chat } from './chat.entity';
 import { ChatsService } from './chats.service';
-import { CreateChatDto } from './dto/create-chat.dto';
+import { CreateChatRequestDto } from './dto/create-chat.dto';
 
 @UseGuards(JwtAuthGuard)
 @UseInterceptors(ClassSerializerInterceptor)
@@ -29,7 +30,10 @@ export class ChatsController {
    * Body: { type: 'direct' | 'group', name?: string, participantIds: string[] }
    */
   @Post()
-  create(@Body() dto: CreateChatDto, @Request() req: AuthorizedRequest) {
+  create(
+    @Body() dto: CreateChatRequestDto,
+    @Request() req: AuthorizedRequest,
+  ): Promise<Chat> {
     return this.chatsService.create(dto, req.user);
   }
 
@@ -38,7 +42,7 @@ export class ChatsController {
    * List all chats the authenticated user is a participant of.
    */
   @Get()
-  findAll(@Request() req: AuthorizedRequest) {
+  findAll(@Request() req: AuthorizedRequest): Promise<Chat[]> {
     return this.chatsService.findAllForUser(req.user.id);
   }
 
@@ -50,7 +54,7 @@ export class ChatsController {
   findOne(
     @Param('id', ParseIntPipe) id: number,
     @Request() req: AuthorizedRequest,
-  ) {
+  ): Promise<Chat> {
     return this.chatsService.findOne(id, req.user.id);
   }
 }

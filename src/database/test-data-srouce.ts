@@ -4,6 +4,6 @@ import { createDataSource } from './data-source.factory';
 
 config({ path: '.env.local' }); // .env.local because .env is used in docker-compose and it confuses database host
 
-const dataSource = createDataSource(process.env.DB_NAME);
+const testDataSource = createDataSource(process.env.TEST_DB_NAME);
 
-export default dataSource;
+export default testDataSource;

@@ -10,7 +10,7 @@ import { User } from '@/src/users/user.entity';
 
 import { Chat, ChatType } from './chat.entity';
 import { ChatsService } from './chats.service';
-import { CreateChatDto } from './dto/create-chat.dto';
+import { CreateChatRequestDto } from './dto/create-chat.dto';
 
 describe('ChatsService', () => {
   let chatsService: ChatsService;
@@ -104,7 +104,7 @@ describe('ChatsService', () => {
 
   describe('create', () => {
     it('should create direct chat when participantIds has exactly one user', async () => {
-      const dto: CreateChatDto = {
+      const dto: CreateChatRequestDto = {
         type: ChatType.DIRECT,
         participantIds: [mockParticipant.id],
       };
@@ -131,7 +131,7 @@ describe('ChatsService', () => {
     });
 
     it('should create group chat with multiple participants', async () => {
-      const dto: CreateChatDto = {
+      const dto: CreateChatRequestDto = {
         type: ChatType.GROUP,
         name: 'Test Group',
         participantIds: [mockParticipant.id, 3],
@@ -158,7 +158,7 @@ describe('ChatsService', () => {
     });
 
     it('should throw BadRequestException when direct chat has zero participants', async () => {
-      const dto: CreateChatDto = {
+      const dto: CreateChatRequestDto = {
         type: ChatType.DIRECT,
         participantIds: [],
       };
@@ -173,7 +173,7 @@ describe('ChatsService', () => {
     });
 
     it('should throw BadRequestException when direct chat has more than one participant', async () => {
-      const dto: CreateChatDto = {
+      const dto: CreateChatRequestDto = {
         type: ChatType.DIRECT,
         participantIds: [2, 3],
       };
@@ -188,7 +188,7 @@ describe('ChatsService', () => {
     });
 
     it('should throw NotFoundException when participant not found', async () => {
-      const dto: CreateChatDto = {
+      const dto: CreateChatRequestDto = {
         type: ChatType.DIRECT,
         participantIds: [999],
       };
@@ -204,7 +204,7 @@ describe('ChatsService', () => {
     });
 
     it('should return existing direct chat when one already exists', async () => {
-      const dto: CreateChatDto = {
+      const dto: CreateChatRequestDto = {
         type: ChatType.DIRECT,
         participantIds: [mockParticipant.id],
       };

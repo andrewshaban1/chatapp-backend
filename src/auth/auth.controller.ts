@@ -9,8 +9,8 @@ import {
 } from '@nestjs/common';
 
 import { AuthService } from './auth.service';
-import { LoginDto } from './dto/login.dto';
-import { RegisterDto } from './dto/register.dto';
+import { LoginRequestDto, LoginResponseDto } from './dto/login.dto';
+import { RegisterRequestDto, RegisterResponseDto } from './dto/register.dto';
 
 /**
  * ClassSerializerInterceptor respects @Exclude() decorators on entities,
@@ -27,7 +27,7 @@ export class AuthController {
    * Returns: { accessToken, user }
    */
   @Post('register')
-  register(@Body() dto: RegisterDto) {
+  register(@Body() dto: RegisterRequestDto): Promise<RegisterResponseDto> {
     return this.authService.register(dto);
   }
 
@@ -39,7 +39,7 @@ export class AuthController {
    */
   @Post('login')
   @HttpCode(HttpStatus.OK)
-  login(@Body() dto: LoginDto) {
+  login(@Body() dto: LoginRequestDto): Promise<LoginResponseDto> {
     return this.authService.login(dto);
   }
 }

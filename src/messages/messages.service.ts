@@ -6,7 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ChatsService } from '@/src/chats/chats.service';
 import { User } from '@/src/users/user.entity';
 
-import { CreateMessageDto } from './dto/create-message.dto';
+import { CreateMessageRequestDto } from './dto/create-message.dto';
 import { Message } from './message.entity';
 
 // Number of messages returned per page
@@ -23,7 +23,7 @@ export class MessagesService {
   // Send a message
   async create(
     chatId: number,
-    dto: CreateMessageDto,
+    dto: CreateMessageRequestDto,
     sender: User,
   ): Promise<Message> {
     // Throws ForbiddenException if user is not a participant

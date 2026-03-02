@@ -4,8 +4,8 @@ import { User } from '@/src/users/user.entity';
 
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { LoginDto } from './dto/login.dto';
-import { RegisterDto } from './dto/register.dto';
+import { LoginRequestDto } from './dto/login.dto';
+import { RegisterRequestDto } from './dto/register.dto';
 
 describe('AuthController', () => {
   let authController: AuthController;
@@ -49,7 +49,7 @@ describe('AuthController', () => {
 
   describe('register', () => {
     it('should return an access token and user', async () => {
-      const dto: RegisterDto = {
+      const dto: RegisterRequestDto = {
         email: mockUser.email,
         username: mockUser.username,
         password: 'Password1',
@@ -71,7 +71,7 @@ describe('AuthController', () => {
 
   describe('login', () => {
     it('should return an access token and user', async () => {
-      const dto: LoginDto = {
+      const dto: LoginRequestDto = {
         email: mockUser.email,
         password: 'Password123',
       };

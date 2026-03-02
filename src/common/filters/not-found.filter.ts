@@ -12,7 +12,7 @@ import {
 export class NotFoundFilter implements ExceptionFilter {
   private readonly logger = new Logger('HTTP');
 
-  catch(exception: NotFoundException, host: ArgumentsHost) {
+  catch(exception: NotFoundException, host: ArgumentsHost): void {
     const start = Date.now();
     const ctx = host.switchToHttp();
     const req = ctx.getRequest<Request>();

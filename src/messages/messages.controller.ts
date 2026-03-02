@@ -15,7 +15,8 @@ import {
 import { JwtAuthGuard } from '@/src/auth/guards/jwt-auth.guard';
 import type { AuthorizedRequest } from '@/src/types/auth.type';
 
-import { CreateMessageDto } from './dto/create-message.dto';
+import { CreateMessageRequestDto } from './dto/create-message.dto';
+import { Message } from './message.entity';
 import { MessagesService } from './messages.service';
 
 @UseGuards(JwtAuthGuard)
@@ -34,7 +35,7 @@ export class MessagesController {
     @Param('chatId', ParseIntPipe) chatId: number,
     @Query('before') before: number | undefined,
     @Request() req: AuthorizedRequest,
-  ) {
+  ): Promise<Message[]> {
     return this.messagesService.findAll(chatId, req.user.id, before);
   }
 
@@ -46,9 +47,9 @@ export class MessagesController {
   @Post()
   create(
     @Param('chatId', ParseIntPipe) chatId: number,
-    @Body() dto: CreateMessageDto,
+    @Body() dto: CreateMessageRequestDto,
     @Request() req: AuthorizedRequest,
-  ) {
+  ): Promise<Message> {
     return this.messagesService.create(chatId, dto, req.user);
   }
 }

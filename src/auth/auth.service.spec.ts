@@ -9,8 +9,8 @@ import { User } from '@/src/users/user.entity';
 import { UsersService } from '@/src/users/users.service';
 
 import { AuthService } from './auth.service';
-import { LoginDto } from './dto/login.dto';
-import { RegisterDto } from './dto/register.dto';
+import { LoginRequestDto } from './dto/login.dto';
+import { RegisterRequestDto } from './dto/register.dto';
 
 jest.mock('bcrypt', () => ({
   hash: jest.fn().mockResolvedValue('hashed-password'),
@@ -47,7 +47,7 @@ describe('AuthService', () => {
   const mockUsersService = {
     findByEmail: jest.fn().mockResolvedValue(mockUser),
     findById: jest.fn().mockResolvedValue(mockUser),
-    create: jest.fn().mockImplementation((dto: RegisterDto) => {
+    create: jest.fn().mockImplementation((dto: RegisterRequestDto) => {
       if (dto.email === mockExistingUser.email) {
         throw new ConflictException('A user with this email already exists.');
       }
@@ -93,7 +93,7 @@ describe('AuthService', () => {
 
   describe('register', () => {
     it('should register a new user and return an access token and user', async () => {
-      const dto: RegisterDto = {
+      const dto: RegisterRequestDto = {
         email: mockUser.email,
         username: mockUser.username,
         password: mockPassword,
@@ -121,7 +121,7 @@ describe('AuthService', () => {
     });
 
     it('should throw a ConflictException if the email is already taken.', async () => {
-      const dto: RegisterDto = {
+      const dto: RegisterRequestDto = {
         email: mockExistingUser.email,
         username: mockUser.username,
         password: mockPassword,
@@ -140,7 +140,7 @@ describe('AuthService', () => {
     });
 
     it('should throw a ConflictException if the username is already taken.', async () => {
-      const dto: RegisterDto = {
+      const dto: RegisterRequestDto = {
         email: mockUser.email,
         username: mockExistingUser.username,
         password: mockPassword,
@@ -159,7 +159,7 @@ describe('AuthService', () => {
     });
 
     it('should hash the password before creating the user.', async () => {
-      const dto: RegisterDto = {
+      const dto: RegisterRequestDto = {
         email: mockUser.email,
         username: mockUser.username,
         password: mockPassword,
@@ -175,7 +175,7 @@ describe('AuthService', () => {
 
   describe('login', () => {
     it('should return access token and user when credentials are valid', async () => {
-      const dto: LoginDto = {
+      const dto: LoginRequestDto = {
         email: mockUser.email,
         password: mockPassword,
       };
@@ -200,7 +200,7 @@ describe('AuthService', () => {
     });
 
     it('should throw UnauthorizedException when password is wrong', async () => {
-      const dto: LoginDto = {
+      const dto: LoginRequestDto = {
         email: mockUser.email,
         password: 'wrongpassword',
       };
@@ -224,7 +224,7 @@ describe('AuthService', () => {
     it('should throw UnauthorizedException when user is not found', async () => {
       mockUsersService.findByEmail.mockResolvedValueOnce(null);
 
-      const dto: LoginDto = {
+      const dto: LoginRequestDto = {
         email: 'unknown@example.com',
         password: mockPassword,
       };
@@ -240,7 +240,7 @@ describe('AuthService', () => {
     });
 
     it('should normalize email to lowercase when finding user', async () => {
-      const dto: LoginDto = {
+      const dto: LoginRequestDto = {
         email: 'TEST@EXAMPLE.COM',
         password: mockPassword,
       };
