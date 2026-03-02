@@ -10,6 +10,10 @@ import {
   NestInterceptor,
 } from '@nestjs/common';
 
+/**
+ * Interceptor to log HTTP requests and responses.
+ * It does not catch 404 errors, because NestJS doesn't throw HttpException for 404 errors.
+ */
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
   private readonly logger = new Logger('HTTP');

@@ -31,6 +31,7 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api'); // all routes become /api/auth/..., /api/users/...
 
+  // NotFoundFilter logs 404 errors because LoggingInterceptor doesn't catch them
   app.useGlobalFilters(new NotFoundFilter());
 
   await app.listen(process.env.PORT ?? 3000);

@@ -3,9 +3,14 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
+import { Chat } from '@/src/chats/chat.entity';
+import { Message } from '@/src/messages/message.entity';
 
 @Entity('users')
 export class User {
@@ -22,13 +27,15 @@ export class User {
   @Exclude() // never serialise this field in HTTP responses
   passwordHash: string;
 
+  @ManyToMany(() => Chat, (chat) => chat.participants)
+  chats?: Chat[];
+
+  @OneToMany(() => Message, (message) => message.sender)
+  messages?: Message[];
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
-
-  // Phase 2 — un-comment once Chat entity exists
-  // @ManyToMany(() => Chat, (chat) => chat.participants)
-  // chats: Chat[];
 }
